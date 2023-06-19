@@ -36,25 +36,26 @@ def mask_card(operation_credentials: str) -> str:
     # Значение по ключу
     if operation_credentials:
         credentials_name = " ".join(operation_credentials.split(" ")[:-1])
-        credentials_namber = operation_credentials.split(" ")[-1]
+        credentials_number = operation_credentials.split(" ")[-1]
 
-        if len(credentials_namber) == 16:
+        if len(credentials_number) == 16:
             # видны первые 6 цифр и последние 4
-            number_hide = credentials_namber[:6] + "*" * 6 + credentials_namber[:-4]
+            number_hide = credentials_number[:6] + "*" * 6 + credentials_number[-4:]
             # разбито по блокам по 4 цифры
-            number_sep = [number_hide[i:i + 4] for i in range(0, len(credentials_namber), 4)]
+            number_sep = [number_hide[i:i + 4] for i in range(0, len(credentials_number), 4)]
             return f'{credentials_name} {" ".join(number_sep)}'
 
-        elif len(credentials_namber) == 20:
-            return f'{credentials_name} {credentials_namber.replace(credentials_namber[:-4], "**")}'
+        elif len(credentials_number) == 20:
+            return f'{credentials_name} {credentials_number.replace(credentials_number[:-4], "**")}'
     # Если по ключу не было получено значение, вернется строка N/A
     return "N/A"
 
 
 def print_info(operations):
+
     for op in operations:
-        operations_amount: dict = op['operationsAmount']
-        print(f"{date_format(op['date'])} {op['description']}'\n"
+        operation_amount: dict = op['operationAmount']
+        print(f"{date_format(op['date'])} {op['description']}\n"
               f"{mask_card(op.get('from'))} -> {mask_card(op.get('to'))}\n"
-              f"{operations_amount.get('amount')} {operations_amount['currency'].get('name')}")
+              f"{operation_amount.get('amount')} {operation_amount['currency'].get('name')}")
         print()

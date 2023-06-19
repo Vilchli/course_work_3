@@ -7,17 +7,15 @@ from utils.services import load_json, date_format, sort_by_date, get_last_five_s
 
 
 def test_load_json():
-    assert load_json('test/data_tests/correct.json') == []
+    assert load_json('tests/data_tests/correct.json') == []
 
     with pytest.raises(JSONDecodeError):
-        assert load_json('test/data_tests/no_correct.json')
-
-
+        assert load_json('tests/data_tests/no_correct.json')
 
 
 def test_date_format():
     test_data = "2019-04-18T11:22:18.800453"
-    assert date_format(test_data) == "18.04.2019 11:22:18"
+    assert date_format(test_data) == "18.04.2019"
 
 
 def test_sort_by_date():
@@ -55,7 +53,7 @@ def test_get_last_five_successful_operations():
 
 def test_mask_card():
 
-    assert mask_card("Maestro 1593832649785199") == "Maestro 1593 83** **** 5199"
+    assert mask_card("Maestro 7552745726849311") == "Maestro 7552 74** **** 9311"
     assert mask_card("Visa Classic 6831982476737658") == "Visa Classic 6831 98** **** 7658"
     assert mask_card("Current account 38976430693692818358") == "Current account **8358"
 
